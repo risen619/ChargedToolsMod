@@ -1,0 +1,6 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "chargedtools:item/charged_pickaxe_powered"
+    }
+}

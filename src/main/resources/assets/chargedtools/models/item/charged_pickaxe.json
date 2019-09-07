@@ -1,0 +1,12 @@
+{
+    "parent": "item/handheld",
+    "textures": {
+        "layer0": "chargedtools:item/charged_pickaxe"
+    },
+    "overrides": [
+        {
+            "predicate": { "powered": 1 },
+            "model": "chargedtools:item/charged_pickaxe_powered"
+        }
+    ]
+}
