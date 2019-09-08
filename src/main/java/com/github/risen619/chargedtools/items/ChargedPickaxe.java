@@ -1,25 +1,20 @@
 package com.github.risen619.chargedtools.items;
 
-import com.github.risen619.chargedtools.Main;
 import com.github.risen619.chargedtools.materials.ToolMaterials;
 import com.google.common.collect.ImmutableSet;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.ToolType;
-import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.eventbus.api.Event;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
@@ -58,69 +53,48 @@ public class ChargedPickaxe extends ChargedTool
 		});
 	}
 	
-	public static String getFullRegistryName()
+	@Override
+	public boolean onBlockDestroyed(ItemStack item, World world, BlockState state, BlockPos pos, LivingEntity entity)
 	{
-		return Main.MODID + ":" + REGISTRY_NAME;
-	}
-	
-//	@Override
-//	public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving)
-//	{
-//		super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
-//	}
-	
-	public static void onBlockBreak(BlockEvent.BreakEvent event)
-	{
-		IWorld world = event.getWorld();
-		ItemStack item = event.getPlayer().getHeldItem(Hand.MAIN_HAND);
+		if(!(entity instanceof PlayerEntity)) return false;
+		
 		CompoundNBT nbt = getNBT(item);
-
+		
 		boolean poweredOn = nbt.getBoolean(POWERED_NBT);
 		int charge = nbt.getInt(CHARGE_NBT);
-
-		if(!poweredOn || charge <= 0)
-		{
-			event.setResult(Event.Result.DEFAULT);
-			return;
-		}
-
+		
+		if(!poweredOn || charge <= 0) return true;
+		
 		for(int i = -1; i <= 1; i++)
 		{
 			if(i == 0) continue;
-
-			BlockPos blockPos = event.getPos().add(0, i, 0);
+			
+			BlockPos blockPos = pos.add(0, i, 0);
 			BlockState blockState = world.getBlockState(blockPos);
-
+			
 			if(!nonHarvestable.contains(blockState.getBlock()))
 				world.destroyBlock(blockPos, true);
 		}
-
+		
 		charge--;
 		nbt.putInt(CHARGE_NBT, charge);
 		item.setTag(nbt);
-
-		if(charge <= 0)
-			item = powerOff(item, event.getPlayer());
 		
-		event.setResult(Event.Result.DEFAULT);
+		if(charge <= 0)
+			item = powerOff(item, (PlayerEntity) entity);
+		
+		return super.onBlockDestroyed(item, world, state, pos, entity);
 	}
 	
 	@Override
 	public boolean canHarvestBlock(BlockState blockIn)
 	{
-		int i = this.getTier().getHarvestLevel();
-		
-		if (blockIn.getHarvestTool() == net.minecraftforge.common.ToolType.PICKAXE)
-			return i >= blockIn.getHarvestLevel();
-		
-		Material material = blockIn.getMaterial();
-		return material == Material.ROCK || material == Material.IRON || material == Material.ANVIL;
+		return Items.DIAMOND_PICKAXE.canHarvestBlock(blockIn);
 	}
 	
 	@Override
 	public float getDestroySpeed(ItemStack stack, BlockState state)
 	{
-		Material material = state.getMaterial();
-		return material != Material.IRON && material != Material.ANVIL && material != Material.ROCK ? super.getDestroySpeed(stack, state) : this.efficiency;
+		return Items.DIAMOND_PICKAXE.getDestroySpeed(stack, state);
 	}
 }
