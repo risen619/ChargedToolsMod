@@ -1,0 +1,17 @@
+{
+	"type": "chargedtools:charged_tool_recharge_shapeless",
+	"ingredients": [
+		{
+			"item": "chargedtools:charged_axe",
+			"data": 0
+		},
+		{
+			"item": "minecraft:redstone_block",
+			"data": 0
+		}
+	],
+	"result": {
+		"item": "chargedtools:charged_axe",
+		"data": 0
+	}
+}

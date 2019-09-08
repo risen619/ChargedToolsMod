@@ -8,7 +8,9 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -61,15 +63,31 @@ public class ChargedAxe extends ChargedTool
 	}
 	
 	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos, LivingEntity entityLiving)
+	public boolean onBlockDestroyed(ItemStack item, World world, BlockState state, BlockPos pos, LivingEntity entity)
 	{
-		Tree tree = Tree.create(state, pos, worldIn);
+		if(!(entity instanceof PlayerEntity)) return false;
 		
-		Main.LOGGER.info("Is Tree null: {}", tree == null);
+		CompoundNBT nbt = getNBT(item);
+		
+		boolean powered = nbt.getBoolean(POWERED_NBT);
+		int charge = nbt.getInt(CHARGE_NBT);
+		
+		if(!powered || charge <= 0) return super.onBlockDestroyed(item, world, state, pos, entity);
+		
+		Tree tree = Tree.create(state, pos, world);
 		
 		if(tree != null)
+		{
 			tree.destroy();
+			
+			charge--;
+			nbt.putInt(CHARGE_NBT, charge);
+			item.setTag(nbt);
+			
+			if(charge <= 0)
+				item = powerOff(item, (PlayerEntity) entity);
+		}
 		
-		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
+		return super.onBlockDestroyed(item, world, state, pos, entity);
 	}
 }

@@ -1,0 +1,18 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"ddd",
+		"dad",
+		"brb"
+	],
+	"key": {
+		"d": { "item": "minecraft:diamond" },
+		"a": { "item": "minecraft:diamond_axe" },
+		"b": { "tag": "minecraft:buttons" },
+		"r": { "item": "minecraft:redstone_block" }
+	},
+	"result": {
+		"item": "chargedtools:charged_axe",
+		"count": 1
+	}
+}
