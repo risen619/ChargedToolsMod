@@ -13,12 +13,16 @@ public class ModItems
 {
 	public static final Item charged_pickaxe = null;
 	public static final Item charged_axe = null;
+	public static final Item iron_battery = null;
+	public static final Item golden_battery = null;
+	public static final Item diamond_battery = null;
 	
 	@SubscribeEvent
 	public static void registerItems(RegistryEvent.Register<Item> event)
 	{
 		event.getRegistry().registerAll(
-			new ChargedPickaxe(), new ChargedAxe()
+			new ChargedPickaxe(), new ChargedAxe(),
+			new IronBattery(), new GoldenBattery(), new DiamondBattery()
 		);
 	}
 }

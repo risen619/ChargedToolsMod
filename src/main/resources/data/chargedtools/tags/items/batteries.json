@@ -1,0 +1,8 @@
+{
+	"replace": false,
+	"values": [
+		"chargedtools:iron_battery",
+		"chargedtools:golden_battery",
+		"chargedtools:diamond_battery"
+	]
+}

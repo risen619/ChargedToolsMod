@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"ddd",
+		"rrr",
+		"ddd"
+	],
+	"key": {
+		"d": { "item": "minecraft:diamond" },
+		"r": { "item": "minecraft:redstone_block" }
+	},
+	"result": {
+		"item": "chargedtools:diamond_battery",
+		"count": 6
+	}
+}

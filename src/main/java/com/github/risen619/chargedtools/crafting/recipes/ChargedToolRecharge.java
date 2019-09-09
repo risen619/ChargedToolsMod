@@ -1,6 +1,7 @@
 package com.github.risen619.chargedtools.crafting.recipes;
 
 import com.github.risen619.chargedtools.Main;
+import com.github.risen619.chargedtools.items.BaseBattery;
 import com.github.risen619.chargedtools.items.ChargedTool;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -30,32 +31,46 @@ public class ChargedToolRecharge extends ShapelessRecipe
 		super(id, group, output, ingredients);
 	}
 	
+	private ItemStack recharge(ItemStack tool, ItemStack battery, ItemStack output)
+	{
+		Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(tool);
+		
+		for(Enchantment e : enchantments.keySet())
+		{
+			output.addEnchantment(e, enchantments.get(e));
+		}
+		
+		output.setDamage(tool.getDamage());
+		output = ChargedTool.recharge(output, (BaseBattery) battery.getItem());
+		
+		return output;
+	}
+	
 	@Override
 	public ItemStack getCraftingResult(CraftingInventory inv)
 	{
 		ItemStack output = super.getCraftingResult(inv);
+		ItemStack tool = null;
+		ItemStack battery = null;
 		
 		if(output.isEmpty()) return output;
 		
 		for(int i = 0; i < inv.getSizeInventory(); i++)
 		{
 			ItemStack ingredient = inv.getStackInSlot(i);
-			if(!ingredient.isEmpty() && ingredient.getItem() instanceof ChargedTool)
+			if(!ingredient.isEmpty())
 			{
-				Map<Enchantment, Integer> enchantments = EnchantmentHelper.getEnchantments(ingredient);
-				
-				for(Enchantment e : enchantments.keySet())
-				{
-					output.addEnchantment(e, enchantments.get(e));
-				}
-				
-				output.setDamage(ingredient.getDamage());
-				
-				break;
+				if(ingredient.getItem() instanceof ChargedTool)
+					tool = ingredient;
+				else if(ingredient.getItem() instanceof BaseBattery)
+					battery = ingredient;
 			}
 		}
 		
-		return output;
+		if(tool == null || battery == null)
+			return output;
+		
+		return recharge(tool, battery, output);
 	}
 	
 	@Override

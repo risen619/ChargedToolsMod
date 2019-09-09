@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"iii",
+		"rrr",
+		"iii"
+	],
+	"key": {
+		"i": { "item": "minecraft:iron_ingot" },
+		"r": { "item": "minecraft:redstone_block" }
+	},
+	"result": {
+		"item": "chargedtools:iron_battery",
+		"count": 6
+	}
+}

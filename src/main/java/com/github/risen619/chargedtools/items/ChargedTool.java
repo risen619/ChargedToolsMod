@@ -72,10 +72,10 @@ public class ChargedTool extends ToolItem
 		return itemStack;
 	}
 	
-	public static ItemStack recharge(ItemStack itemStack)
+	public static ItemStack recharge(ItemStack itemStack, BaseBattery battery)
 	{
 		CompoundNBT nbt = getNBT(itemStack);
-		nbt.putInt(CHARGE_NBT, 100);
+		nbt.putInt(CHARGE_NBT, battery.getCapacity());
 		itemStack.setTag(nbt);
 		
 		return itemStack;
@@ -101,6 +101,6 @@ public class ChargedTool extends ToolItem
 	public void addInformation(ItemStack itemStack, @Nullable World world, List<ITextComponent> lines, ITooltipFlag flag)
 	{
 		super.addInformation(itemStack, world, lines, flag);
-		lines.add(new StringTextComponent("Charge: " + getNBT(itemStack).getInt(CHARGE_NBT) + "/100"));
+		lines.add(new StringTextComponent("Charge: " + getNBT(itemStack).getInt(CHARGE_NBT)));
 	}
 }

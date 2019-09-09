@@ -6,7 +6,7 @@
 			"data": 0
 		},
 		{
-			"item": "minecraft:redstone_block",
+			"tag": "chargedtools:batteries",
 			"data": 0
 		}
 	],

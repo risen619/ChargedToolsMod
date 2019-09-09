@@ -1,4 +1,7 @@
 {
 	"item.chargedtools.charged_pickaxe": "Charged Pickaxe",
-	"item.chargedtools.charged_axe": "Charged Axe"
+	"item.chargedtools.charged_axe": "Charged Axe",
+	"item.chargedtools.iron_battery": "Iron Battery",
+	"item.chargedtools.golden_battery": "Gold Battery",
+	"item.chargedtools.diamond_battery": "Diamond Battery"
 }

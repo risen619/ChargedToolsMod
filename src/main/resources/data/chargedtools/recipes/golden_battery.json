@@ -1,0 +1,16 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"ggg",
+		"rrr",
+		"ggg"
+	],
+	"key": {
+		"g": { "item": "minecraft:gold_ingot" },
+		"r": { "item": "minecraft:redstone_block" }
+	},
+	"result": {
+		"item": "chargedtools:golden_battery",
+		"count": 6
+	}
+}
